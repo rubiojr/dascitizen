@@ -32,10 +32,21 @@ define dascitizen::master(
     notify => Service['dascitizen-ws'],
   }
 
-  file { '/etc/init/dascitizen-ws.conf':
-    ensure => present,
-    content => template('dascitizen/dascitizen-ws.upstart.erb'),
-    mode   => 0655,
+  case $operatingsystem {
+    'Ubuntu': {
+      file { '/etc/init/dascitizen-ws.conf':
+        ensure => present,
+        content => template('dascitizen/dascitizen-ws.upstart.erb'),
+        mode   => 0655,
+      }
+    }
+    'Debian': {
+      file { '/etc/init.d/dascitizen-ws':
+        ensure => present,
+        content => template('dascitizen/dascitizen-ws.init'),
+        mode   => 0755,
+      }
+    }
   }
 
   file { '/etc/dascitizen/hosts':
@@ -54,16 +65,32 @@ define dascitizen::master(
     notify  => Service['dascitizen-ws'],
   }
 
-  service { 'dascitizen-ws':
-    require => [
-      File['/usr/local/bin/dascitizen-ws'],
-      File['/etc/init/dascitizen-ws.conf'],
-      File['/etc/dascitizen/settings.yaml'],
-      Package['ruby-sinatra', 'ruby-json'],
-    ],
-    ensure   => running,
-    enable   => true,
-    provider => upstart,
+  case $operatingsystem {
+    'Ubuntu': {
+      service { 'dascitizen-ws':
+        require => [
+          File['/usr/local/bin/dascitizen-ws'],
+          File['/etc/init/dascitizen-ws.conf'],
+          File['/etc/dascitizen/settings.yaml'],
+          Package['ruby-sinatra', 'ruby-json'],
+        ],
+        ensure   => running,
+        enable   => true,
+        provider => upstart,
+      }
+    }
+    'Debian': {
+      service { 'dascitizen-ws':
+        require => [
+          File['/usr/local/bin/dascitizen-ws'],
+          File['/etc/init/dascitizen-ws.conf'],
+          File['/etc/dascitizen/settings.yaml'],
+          Package['ruby-sinatra', 'ruby-json'],
+        ],
+        ensure   => running,
+        enable   => true,
+      }
+    }
   }
 
   exec { 'add_tinc_master_address':
