@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+require 'rest-client'
+require 'json'
+require 'yaml'
+
+network = ARGV[0]
+unless network
+  $stderr.puts "Usage: fetch-tinc-nodes <network>" 
+  exit 1
+end
+
+conf = YAML.load_file('/etc/dascitizen/client-settings.yaml')[network]
+user = conf['username']
+password = conf['password']
+masters = conf['master_nodes'].split(',')
+masters.each do |m|
+  puts "Fetching nodes from #{m}..."
+  hosts = JSON.parse RestClient.get "https://#{user}:#{password}@#{m}:9669/nodes/keys"
+  hosts.each do |h|
+    File.open "/etc/tinc/#{network}/hosts/#{h['name']}", 'w' do |f|
+      puts "Writting node host file for #{h['name']}"
+      f.puts h['body']
+    end
+  end
+end

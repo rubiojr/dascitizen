@@ -1,0 +1,10 @@
+# An example upstart script for ustate
+description "DasCitizen Master Web Service"
+
+start on started network
+stop on stopped network
+stop on starting shutdown
+
+respawn
+
+exec ruby /usr/local/bin/dascitizen-ws 6996

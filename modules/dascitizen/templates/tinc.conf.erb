@@ -1,0 +1,6 @@
+Name = <%= scope.lookupvar('dascitizen::node_name') %>
+Compression = <%= compression || 10 %>
+<% masters.each do |m| -%>
+ConnectTo = <%= m %>
+<% end -%>
+Port = <%= port %>

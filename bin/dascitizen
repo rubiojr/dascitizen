@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+puts
+puts 'Hello, Citizen of the World:'
+puts
+puts "The Great Private Network isn't ready yet."
+puts "But it's coming soon."
+puts 
+puts "My apologies, Citizen of the World."
