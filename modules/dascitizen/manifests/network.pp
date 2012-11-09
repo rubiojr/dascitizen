@@ -45,15 +45,7 @@ define dascitizen::network(
     require => File['/etc/dascitizen'],
   }
 
-  if !Package['curl'] {
-    package { 'curl': ensure => present }
-  }
-
-  if !Package['ruby-json'] {
-    package { 'ruby-json': ensure => present }
-  }
-
-  if !Package['ruby-rest-client'] {
+  if !defined(Package['ruby-rest-client']) {
     package { 'ruby-rest-client': ensure => present }
   }
 

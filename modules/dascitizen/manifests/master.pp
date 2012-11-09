@@ -13,7 +13,6 @@ define dascitizen::master(
   $node_host_file = "/etc/tinc/${name}/hosts/${dascitizen::node_name}"
 
   package { 'ruby-sinatra': }
-  package { 'ruby-json': }
   package { 'ssl-cert': }
 
   file { '/etc/dascitizen/server.key':

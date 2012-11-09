@@ -50,4 +50,13 @@ class dascitizen( $node_name ){
     ensure  => directory,
   }
 
+  if !defined(Package['ruby-json']) {
+    package { 'ruby-json': ensure => present }
+  }
+
+  if !defined(Package['curl']) {
+    package { 'curl': ensure => present }
+  }
+
+
 }
