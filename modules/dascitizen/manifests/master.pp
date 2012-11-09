@@ -43,7 +43,7 @@ define dascitizen::master(
     'Debian': {
       file { '/etc/init.d/dascitizen-ws':
         ensure => present,
-        content => template('dascitizen/dascitizen-ws.init'),
+        source => 'puppet:///modules/dascitizen/dascitizen-ws.init',
         mode   => 0755,
       }
     }
