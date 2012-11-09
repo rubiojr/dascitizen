@@ -83,7 +83,7 @@ define dascitizen::master(
       service { 'dascitizen-ws':
         require => [
           File['/usr/local/bin/dascitizen-ws'],
-          File['/etc/init/dascitizen-ws.conf'],
+          File['/etc/init.d/dascitizen-ws'],
           File['/etc/dascitizen/settings.yaml'],
           Package['ruby-sinatra', 'ruby-json'],
         ],
